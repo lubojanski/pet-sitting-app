@@ -1,0 +1,45 @@
+
+.sitters a{
+      color: #369;
+    display: block;
+    text-decoration: none;
+     background-color: whitesmoke;
+    list-style-type: none;
+    height: 200px;
+    width: 500px;
+    border: 2px solid lightsteelblue;
+    border-radius: 7px;
+    margin: 5px;
+}
+.sitters a:active
+{
+    text-decoration: none;
+}
+.sitters a:hover{
+    border-color: cornflowerblue;
+    cursor: pointer;
+
+}
+img {
+    background-color: linen;
+   
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    border: 0px;
+    border-radius: 100%;
+}
+h1 {
+    display: inline;
+    font-size: 1.5em;
+    font-family: 'Montserrat', sans-serif;
+    vertical-align: top;
+}
+.price {
+    padding-right: 10px;
+    padding-top: 3px;
+    float: right;
+    font-size: 1.3em;
+    font-family: 'Montserrat', sans-serif;
+     vertical-align: top;
+}
