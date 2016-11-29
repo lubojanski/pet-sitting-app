@@ -9,24 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var mock_sitters_1 = require('./mock-sitters');
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/toPromise');
 var SitterService = (function () {
-    function SitterService() {
+    function SitterService(http) {
+        this.http = http;
+        this.sittersUrl = 'app/sitters'; // URL to web api
     }
     SitterService.prototype.getSitters = function () {
-        return Promise.resolve(mock_sitters_1.SITTERS);
+        return this.http.get(this.sittersUrl)
+            .toPromise()
+            .then(function (response) { return response.json().data; })
+            .catch(this.handleError);
     };
     SitterService.prototype.getSitter = function (id) {
         return this.getSitters()
             .then(function (sitters) { return sitters.find(function (sitter) { return sitter.id === id; }); });
     };
-    SitterService.prototype.findSitters = function (city) {
-        return this.getSitters()
-            .then(function (sitters) { return sitters.filter(function (sitter) { return sitter.city === city; }); });
+    SitterService.prototype.search = function (term) {
+        return this.http
+            .get("app/sitters/?city=" + term)
+            .map(function (r) { return r.json().data; });
+    };
+    SitterService.prototype.handleError = function (error) {
+        console.error('An error occurred', error); // for demo purposes only
+        return Promise.reject(error.message || error);
     };
     SitterService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [http_1.Http])
     ], SitterService);
     return SitterService;
 }());

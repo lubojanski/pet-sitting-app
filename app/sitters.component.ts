@@ -1,25 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router }            from '@angular/router';
+import { Observable }        from 'rxjs/Observable';
+import { Subject }           from 'rxjs/Subject';
+
 import { Sitter } from './sitter';
 import { SitterService } from './sitter.service';
-import { OnInit } from '@angular/core';
 
 @Component({
+  moduleId: module.id,
   selector: 'my-sitters',
-  templateUrl: './app/sitters.component.html',
-  styleUrls: ['./app/sitters.component.css']
+  templateUrl: './sitters.component.html',
+  styleUrls: ['./sitters.component.css'],
+  providers: [SitterService]
 })
 export class SittersComponent implements OnInit{
-  constructor(private sitterService: SitterService) { }
+  constructor(
+    private sitterService: SitterService,
+    private router: Router) { }
 
-  sitters: Sitter[];
-  selectedSitter: Sitter;
-  findSitters(city : string): void {
-     this.sitterService.findSitters(city)
-     .then(sitters => this.sitters = sitters);
+  sitters: Observable<Sitter[]>;
+  private searchTerms = new Subject<string>();
+
+  search(term: string): void {
+    this.searchTerms.next(term);
   }
+
+  selectedSitter: Sitter;
+
     ngOnInit(): void {
-      this.sitterService.getSitters()
-      .then(sitters => this.sitters = sitters.slice(0, 6));
+       this.sitters = this.searchTerms
+      .debounceTime(300)        // wait for 300ms pause in events
+      .distinctUntilChanged()   // ignore if next search term is same as previous
+      .switchMap(term => term   // switch to new observable each time
+        // return the http search observable
+        ? this.sitterService.search(term)
+        : Observable.of<Sitter[]>([]))
+      .catch(error => {
+        console.log(error);
+        return Observable.of<Sitter[]>([]);
+      });
   }
   onSelect(sitter: Sitter): void {
     this.selectedSitter = sitter;

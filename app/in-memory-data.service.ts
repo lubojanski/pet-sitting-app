@@ -1,6 +1,8 @@
-import { Sitter } from './sitter';
+import { InMemoryDbService } from 'angular-in-memory-web-api';
+export class InMemoryDataService implements InMemoryDbService {
+  createDb() {
 
-export const SITTERS: Sitter[] = [
+let sitters = [
   {id: 11, name: 'Andrzej Nowak', price: 30 , city: 'Wroclaw', adress: 'x', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'},
   {id: 12, name: 'Karolina Łęcka', price: 20, city: 'Warsaw', adress: 'x', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'},
   {id: 13, name: 'Tomasz Ławski', price: 40, city: 'Pozen', adress: 'x', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'},
@@ -12,3 +14,9 @@ export const SITTERS: Sitter[] = [
   {id: 19, name: 'Włodzimierz Sztos', price: 40, city: 'Wroclaw', adress: 'x', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'},
   {id: 20, name: 'Grzegorz Brzoza', price: 32, city: 'Wroclaw', adress: 'x', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'}
   ];
+
+  return {sitters};
+
+  }
+
+}

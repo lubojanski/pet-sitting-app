@@ -11,11 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
+var http_1 = require('@angular/http');
+var app_routing_module_1 = require('./app-routing.module');
 var app_component_1 = require('./app.component');
 var sitter_detail_component_1 = require('./sitter-detail.component');
 var sitters_component_1 = require('./sitters.component');
 var sitter_service_1 = require('./sitter.service');
-var app_routing_module_1 = require('./app-routing.module');
+require('./rxjs-extensions');
+var angular_in_memory_web_api_1 = require('angular-in-memory-web-api');
+var in_memory_data_service_1 = require('./in-memory-data.service');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -24,6 +28,8 @@ var AppModule = (function () {
             imports: [
                 platform_browser_1.BrowserModule,
                 forms_1.FormsModule,
+                http_1.HttpModule,
+                angular_in_memory_web_api_1.InMemoryWebApiModule.forRoot(in_memory_data_service_1.InMemoryDataService),
                 app_routing_module_1.AppRoutingModule
             ],
             declarations: [

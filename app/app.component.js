@@ -17,7 +17,7 @@ var AppComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'my-app',
-            template: "\n        <h1>{{title}}</h1>\n        <a routerLink=\"/sitters\">Sitters</a>\n        <router-outlet></router-outlet>\n        "
+            template: "\n        <h1>{{title}}</h1>\n        <router-outlet></router-outlet>\n        "
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

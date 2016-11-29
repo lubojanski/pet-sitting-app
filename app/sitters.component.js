@@ -9,31 +9,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
+var Observable_1 = require('rxjs/Observable');
+var Subject_1 = require('rxjs/Subject');
 var sitter_service_1 = require('./sitter.service');
 var SittersComponent = (function () {
-    function SittersComponent(sitterService) {
+    function SittersComponent(sitterService, router) {
         this.sitterService = sitterService;
+        this.router = router;
+        this.searchTerms = new Subject_1.Subject();
     }
-    SittersComponent.prototype.findSitters = function (city) {
-        var _this = this;
-        this.sitterService.findSitters(city)
-            .then(function (sitters) { return _this.sitters = sitters; });
+    SittersComponent.prototype.search = function (term) {
+        this.searchTerms.next(term);
     };
     SittersComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.sitterService.getSitters()
-            .then(function (sitters) { return _this.sitters = sitters.slice(0, 6); });
+        this.sitters = this.searchTerms
+            .debounceTime(300) // wait for 300ms pause in events
+            .distinctUntilChanged() // ignore if next search term is same as previous
+            .switchMap(function (term) { return term // switch to new observable each time
+            ? _this.sitterService.search(term)
+            : Observable_1.Observable.of([]); })
+            .catch(function (error) {
+            console.log(error);
+            return Observable_1.Observable.of([]);
+        });
     };
     SittersComponent.prototype.onSelect = function (sitter) {
         this.selectedSitter = sitter;
     };
     SittersComponent = __decorate([
         core_1.Component({
+            moduleId: module.id,
             selector: 'my-sitters',
-            templateUrl: './app/sitters.component.html',
-            styleUrls: ['./app/sitters.component.css']
+            templateUrl: './sitters.component.html',
+            styleUrls: ['./sitters.component.css'],
+            providers: [sitter_service_1.SitterService]
         }), 
-        __metadata('design:paramtypes', [sitter_service_1.SitterService])
+        __metadata('design:paramtypes', [sitter_service_1.SitterService, router_1.Router])
     ], SittersComponent);
     return SittersComponent;
 }());

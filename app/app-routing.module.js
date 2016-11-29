@@ -13,7 +13,7 @@ var router_1 = require('@angular/router');
 var sitters_component_1 = require('./sitters.component');
 var sitter_detail_component_1 = require('./sitter-detail.component');
 var routes = [
-    { path: '', redirectTo: '/sitters', pathMatch: 'full' },
+    { path: '', component: sitters_component_1.SittersComponent },
     { path: 'detail/:id', component: sitter_detail_component_1.SitterDetailComponent },
     { path: 'sitters', component: sitters_component_1.SittersComponent }
 ];

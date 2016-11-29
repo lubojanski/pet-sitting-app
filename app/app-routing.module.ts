@@ -4,7 +4,7 @@ import { SittersComponent }      from './sitters.component';
 import { SitterDetailComponent }  from './sitter-detail.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/sitters', pathMatch: 'full' },
+  { path: '', component: SittersComponent },
   { path: 'detail/:id', component: SitterDetailComponent },
   { path: 'sitters',     component: SittersComponent }
 ];

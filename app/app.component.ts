@@ -5,7 +5,6 @@ import { Component, OnInit } from '@angular/core';
     selector: 'my-app',
     template: `
         <h1>{{title}}</h1>
-        <a routerLink="/sitters">Sitters</a>
         <router-outlet></router-outlet>
         `
 })
