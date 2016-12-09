@@ -14,7 +14,8 @@ var sitters_component_1 = require('./sitters.component');
 var sitter_detail_component_1 = require('./sitter-detail.component');
 var routes = [
     { path: '', component: sitters_component_1.SittersComponent },
-    { path: 'detail/:id', component: sitter_detail_component_1.SitterDetailComponent },
+    { path: 'sitter/:id', component: sitter_detail_component_1.SitterDetailComponent },
+    { path: 'sitters/:city', component: sitters_component_1.SittersComponent },
     { path: 'sitters', component: sitters_component_1.SittersComponent }
 ];
 var AppRoutingModule = (function () {

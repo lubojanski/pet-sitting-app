@@ -4,7 +4,7 @@ export class Sitter {
     public name: string,
     public price: number,
     public city: string,
-    public adress: string,
+    public address: string,
     public description: string
   ) {  }
 }

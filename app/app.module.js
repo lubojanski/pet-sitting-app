@@ -17,6 +17,7 @@ var app_component_1 = require('./app.component');
 var sitter_detail_component_1 = require('./sitter-detail.component');
 var sitters_component_1 = require('./sitters.component');
 var sitter_service_1 = require('./sitter.service');
+var map_component_1 = require('./map.component');
 require('./rxjs-extensions');
 var angular_in_memory_web_api_1 = require('angular-in-memory-web-api');
 var in_memory_data_service_1 = require('./in-memory-data.service');
@@ -35,7 +36,8 @@ var AppModule = (function () {
             declarations: [
                 app_component_1.AppComponent,
                 sitter_detail_component_1.SitterDetailComponent,
-                sitters_component_1.SittersComponent
+                sitters_component_1.SittersComponent,
+                map_component_1.MapComponent
             ],
             providers: [
                 sitter_service_1.SitterService

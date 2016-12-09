@@ -43,3 +43,11 @@ h1 {
     font-family: 'Montserrat', sans-serif;
      vertical-align: top;
 }
+.column-right{
+    width: 50%;
+    display: inline-block;
+}
+.column-left{
+    width: 50%;
+    display: inline-block;
+}

@@ -5,7 +5,8 @@ import { SitterDetailComponent }  from './sitter-detail.component';
 
 const routes: Routes = [
   { path: '', component: SittersComponent },
-  { path: 'detail/:id', component: SitterDetailComponent },
+  { path: 'sitter/:id', component: SitterDetailComponent },
+  { path: 'sitters/:city',     component: SittersComponent },
   { path: 'sitters',     component: SittersComponent }
 ];
 @NgModule({

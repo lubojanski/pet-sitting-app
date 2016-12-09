@@ -10,6 +10,7 @@ import { AppComponent }  from './app.component';
 import { SitterDetailComponent } from './sitter-detail.component';
 import { SittersComponent} from './sitters.component';
 import { SitterService} from './sitter.service';
+import { MapComponent} from './map.component';
 import './rxjs-extensions';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -29,7 +30,8 @@ import { InMemoryDataService }  from './in-memory-data.service';
   declarations: [
     AppComponent,
     SitterDetailComponent,
-    SittersComponent
+    SittersComponent,
+    MapComponent
   ],
   providers: [
     SitterService

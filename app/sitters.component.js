@@ -14,26 +14,33 @@ var Observable_1 = require('rxjs/Observable');
 var Subject_1 = require('rxjs/Subject');
 var sitter_service_1 = require('./sitter.service');
 var SittersComponent = (function () {
-    function SittersComponent(sitterService, router) {
+    function SittersComponent(sitterService, route, router) {
         this.sitterService = sitterService;
+        this.route = route;
         this.router = router;
         this.searchTerms = new Subject_1.Subject();
     }
     SittersComponent.prototype.search = function (term) {
+        this.address = term;
         this.searchTerms.next(term);
+        this.router.navigate(['/sitters', term]);
     };
     SittersComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.sitters = this.searchTerms
-            .debounceTime(300) // wait for 300ms pause in events
-            .distinctUntilChanged() // ignore if next search term is same as previous
-            .switchMap(function (term) { return term // switch to new observable each time
-            ? _this.sitterService.search(term)
-            : Observable_1.Observable.of([]); })
+            .debounceTime(300)
+            .distinctUntilChanged()
+            .switchMap(function (term) { return term ?
+            _this.sitterService.search(term)
+            :
+                Observable_1.Observable.of([]); })
             .catch(function (error) {
             console.log(error);
             return Observable_1.Observable.of([]);
         });
+        this.route.params
+            .switchMap(function (params) { return _this.sitterService.search(params['city']); })
+            .subscribe(function (sitters) { return _this.sitters = Observable_1.Observable.of(sitters); });
     };
     SittersComponent.prototype.onSelect = function (sitter) {
         this.selectedSitter = sitter;
@@ -46,7 +53,7 @@ var SittersComponent = (function () {
             styleUrls: ['./sitters.component.css'],
             providers: [sitter_service_1.SitterService]
         }), 
-        __metadata('design:paramtypes', [sitter_service_1.SitterService, router_1.Router])
+        __metadata('design:paramtypes', [sitter_service_1.SitterService, router_1.ActivatedRoute, router_1.Router])
     ], SittersComponent);
     return SittersComponent;
 }());
