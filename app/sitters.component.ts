@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
 
 import { Sitter } from './sitter';
+import { MapComponent } from './map.component';
 import { SitterService } from './sitter.service';
 
 @Component({
@@ -20,15 +21,28 @@ export class SittersComponent implements OnInit{
     private router: Router
   ) {}
 
-
+  @ViewChild('gmap') myMap: MapComponent;
   sitters: Observable<Sitter[]>;
   address: Observable<string>;
+  addresses: string[] = [];
   private searchTerms = new Subject<string>();
 
   search(term: string): void {
-        this.address = Observable.of(term);
+
+//this.router.navigate(['/sitters', term]);
+ // this.myMap.geocodeAddress(term);
+        this.addresses.length = 0; 
+        this.sitters.subscribe( sitters => sitters
+                              .map( sitter => this.addresses
+                              .push(sitter.city +" " + sitter.address)));
+
+        console.log(this.addresses);
+
         this.searchTerms.next(term);
-        this.router.navigate(['/sitters', term]);
+
+
+      setTimeout( () => this.myMap.geocodeAddress(term, this.addresses), 2000);
+         
       
       
 
@@ -36,6 +50,7 @@ export class SittersComponent implements OnInit{
   selectedSitter: Sitter;
 
     ngOnInit(): void {
+      console.log("sitters oninit");
        this.sitters = this.searchTerms
       .debounceTime(300)      
       .distinctUntilChanged()
@@ -48,18 +63,10 @@ export class SittersComponent implements OnInit{
         return Observable.of<Sitter[]>([]);
       });
 
-      this.route.params
+    /*  this.route.params
       .switchMap((params: Params) =>  this.sitterService.search(params['city']))
       .subscribe(sitters => this.sitters = Observable.of(sitters));
-     
-
-
-
-
-      
-
-
-
+     */
   }
   onSelect(sitter: Sitter): void {
     this.selectedSitter = sitter;

@@ -12,21 +12,31 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var Observable_1 = require('rxjs/Observable');
 var Subject_1 = require('rxjs/Subject');
+var map_component_1 = require('./map.component');
 var sitter_service_1 = require('./sitter.service');
 var SittersComponent = (function () {
     function SittersComponent(sitterService, route, router) {
         this.sitterService = sitterService;
         this.route = route;
         this.router = router;
+        this.addresses = [];
         this.searchTerms = new Subject_1.Subject();
     }
     SittersComponent.prototype.search = function (term) {
-        this.address = Observable_1.Observable.of(term);
+        var _this = this;
+        //this.router.navigate(['/sitters', term]);
+        // this.myMap.geocodeAddress(term);
+        this.addresses.length = 0;
+        this.sitters.subscribe(function (sitters) { return sitters
+            .map(function (sitter) { return _this.addresses
+            .push(sitter.city + " " + sitter.address); }); });
+        console.log(this.addresses);
         this.searchTerms.next(term);
-        this.router.navigate(['/sitters', term]);
+        setTimeout(function () { return _this.myMap.geocodeAddress(term, _this.addresses); }, 2000);
     };
     SittersComponent.prototype.ngOnInit = function () {
         var _this = this;
+        console.log("sitters oninit");
         this.sitters = this.searchTerms
             .debounceTime(300)
             .distinctUntilChanged()
@@ -38,13 +48,18 @@ var SittersComponent = (function () {
             console.log(error);
             return Observable_1.Observable.of([]);
         });
-        this.route.params
-            .switchMap(function (params) { return _this.sitterService.search(params['city']); })
-            .subscribe(function (sitters) { return _this.sitters = Observable_1.Observable.of(sitters); });
+        /*  this.route.params
+          .switchMap((params: Params) =>  this.sitterService.search(params['city']))
+          .subscribe(sitters => this.sitters = Observable.of(sitters));
+         */
     };
     SittersComponent.prototype.onSelect = function (sitter) {
         this.selectedSitter = sitter;
     };
+    __decorate([
+        core_1.ViewChild('gmap'), 
+        __metadata('design:type', map_component_1.MapComponent)
+    ], SittersComponent.prototype, "myMap", void 0);
     SittersComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

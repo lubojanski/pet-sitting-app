@@ -14,48 +14,54 @@ var router_1 = require('@angular/router');
 var MapComponent = (function () {
     function MapComponent(route) {
         this.route = route;
-        this.addresses = [];
+        // addresses: Array<string> = [];  
+        this.markers = [];
     }
-    MapComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.route.params
-            .switchMap(function (params) { return _this.setAddress(params['city']); })
-            .subscribe(function (address) { return _this.adres = address; });
-        console.log("adres:" + this.adres);
-        this.geocoder = new google.maps.Geocoder();
+    MapComponent.prototype.ngAfterViewInit = function () {
+        console.log("map oninit");
         var mapProp = {
             zoom: 12,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
+        this.geocoder = new google.maps.Geocoder();
         this.map = new google.maps.Map(document.getElementById("gmap"), mapProp);
-        this.geocoder.geocode({ 'address': this.adres }, function (results, status) {
-            _this.map.setCenter(results[0].geometry.location);
-        });
+        if (this.city) {
+            this.setMapCenter(this.city);
+        }
     };
-    MapComponent.prototype.setAddress = function (address) {
-        return this.address = Observable_1.Observable.of(address);
-    };
-    MapComponent.prototype.geocodeAddress = function (address) {
+    MapComponent.prototype.setMapCenter = function (address) {
         var _this = this;
-        console.log("fired");
-        this.addresses = [];
-        this.sitters.subscribe(function (sitters) { return sitters
-            .map(function (sitter) { return _this.addresses
-            .push(sitter.city + " " + sitter.address); }); });
-        //console.log("adres : " + this.address);
         this.geocoder.geocode({ 'address': address }, function (results, status) {
             _this.map.setCenter(results[0].geometry.location);
         });
-        // TODO geocode address on sitter create
+    };
+    MapComponent.prototype.geocodeAddress = function (address, addresses) {
+        this.deleteMarkers();
+        // this.addresses = addresses;
+        console.log("adresy w addresses:" + addresses);
+        this.setMapCenter(address);
+        this.AddressesToLatLng(addresses); // TODO geocode address on sitter create (OVER_QUERY_LIMIT)
+    };
+    MapComponent.prototype.deleteMarkers = function () {
+        this.clearMarkers();
+        this.markers = [];
+    };
+    MapComponent.prototype.clearMarkers = function () {
+        this.setMapOnAll(null);
+    };
+    MapComponent.prototype.setMapOnAll = function (map) {
+        for (var i = 0; i < this.markers.length; i++) {
+            this.markers[i].setMap(map);
+        }
+    };
+    MapComponent.prototype.AddressesToLatLng = function (addresses) {
+        var _this = this;
         var _loop_1 = function(addr) {
             setTimeout(function () {
                 _this.geocoder.geocode({ 'address': addr }, function (results, status) {
                     if (status === 'OK') {
-                        var marker = new google.maps.Marker({
-                            map: _this.map,
-                            position: results[0].geometry.location,
-                            center: results[0].geometry.location
-                        });
+                        console.log("adres w geo: " + addr);
+                        _this.addMarker(results);
                     }
                     else {
                         if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
@@ -66,20 +72,23 @@ var MapComponent = (function () {
                 });
             }, 200);
         };
-        for (var _i = 0, _a = this.addresses; _i < _a.length; _i++) {
-            var addr = _a[_i];
+        for (var _i = 0, addresses_1 = addresses; _i < addresses_1.length; _i++) {
+            var addr = addresses_1[_i];
             _loop_1(addr);
         }
         ;
+    };
+    MapComponent.prototype.addMarker = function (results) {
+        var marker = new google.maps.Marker({
+            map: this.map,
+            position: results[0].geometry.location
+        });
+        this.markers.push(marker);
     };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Observable_1.Observable)
     ], MapComponent.prototype, "sitters", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Observable_1.Observable)
-    ], MapComponent.prototype, "address", void 0);
     MapComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
