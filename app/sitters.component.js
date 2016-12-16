@@ -21,7 +21,7 @@ var SittersComponent = (function () {
         this.searchTerms = new Subject_1.Subject();
     }
     SittersComponent.prototype.search = function (term) {
-        this.address = term;
+        this.address = Observable_1.Observable.of(term);
         this.searchTerms.next(term);
         this.router.navigate(['/sitters', term]);
     };

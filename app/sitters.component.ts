@@ -22,11 +22,11 @@ export class SittersComponent implements OnInit{
 
 
   sitters: Observable<Sitter[]>;
-  address: string;
+  address: Observable<string>;
   private searchTerms = new Subject<string>();
 
   search(term: string): void {
-        this.address = term;
+        this.address = Observable.of(term);
         this.searchTerms.next(term);
         this.router.navigate(['/sitters', term]);
       
@@ -49,8 +49,12 @@ export class SittersComponent implements OnInit{
       });
 
       this.route.params
-      .switchMap((params: Params) => this.sitterService.search(params['city']))
+      .switchMap((params: Params) =>  this.sitterService.search(params['city']))
       .subscribe(sitters => this.sitters = Observable.of(sitters));
+     
+
+
+
 
       
 
