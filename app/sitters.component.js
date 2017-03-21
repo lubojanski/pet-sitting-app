@@ -25,7 +25,7 @@ var SittersComponent = (function () {
     SittersComponent.prototype.search = function (term) {
         var _this = this;
         //this.router.navigate(['/sitters', term]);
-        // this.myMap.geocodeAddress(term);
+        //this.myMap.geocodeAddress(term);
         this.addresses.length = 0;
         this.sitters.subscribe(function (sitters) { return sitters
             .map(function (sitter) { return _this.addresses
@@ -36,7 +36,6 @@ var SittersComponent = (function () {
     };
     SittersComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log("sitters oninit");
         this.sitters = this.searchTerms
             .debounceTime(300)
             .distinctUntilChanged()
@@ -48,10 +47,9 @@ var SittersComponent = (function () {
             console.log(error);
             return Observable_1.Observable.of([]);
         });
-        /*  this.route.params
-          .switchMap((params: Params) =>  this.sitterService.search(params['city']))
-          .subscribe(sitters => this.sitters = Observable.of(sitters));
-         */
+        this.route.params
+            .switchMap(function (params) { return _this.sitterService.search(params['city']); })
+            .subscribe(function (sitters) { return _this.sitters = Observable_1.Observable.of(sitters); });
     };
     SittersComponent.prototype.onSelect = function (sitter) {
         this.selectedSitter = sitter;

@@ -20,7 +20,7 @@ export class MapComponent implements AfterViewInit {
   map: any;
   geocoder: any;
   city: string;
- // addresses: Array<string> = [];  
+ addresses: Array<string> = [];  
   markers: Array<any> = [];
 
 
@@ -48,7 +48,7 @@ export class MapComponent implements AfterViewInit {
 
   geocodeAddress(address: string, addresses: string[]) {
       this.deleteMarkers();
-    // this.addresses = addresses;
+     this.addresses = addresses;
       console.log("adresy w addresses:" + addresses);    
       this.setMapCenter(address);
       this.AddressesToLatLng(addresses);  // TODO geocode address on sitter create (OVER_QUERY_LIMIT)

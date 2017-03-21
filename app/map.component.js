@@ -14,7 +14,7 @@ var router_1 = require('@angular/router');
 var MapComponent = (function () {
     function MapComponent(route) {
         this.route = route;
-        // addresses: Array<string> = [];  
+        this.addresses = [];
         this.markers = [];
     }
     MapComponent.prototype.ngAfterViewInit = function () {
@@ -37,7 +37,7 @@ var MapComponent = (function () {
     };
     MapComponent.prototype.geocodeAddress = function (address, addresses) {
         this.deleteMarkers();
-        // this.addresses = addresses;
+        this.addresses = addresses;
         console.log("adresy w addresses:" + addresses);
         this.setMapCenter(address);
         this.AddressesToLatLng(addresses); // TODO geocode address on sitter create (OVER_QUERY_LIMIT)

@@ -29,28 +29,20 @@ export class SittersComponent implements OnInit{
 
   search(term: string): void {
 
-//this.router.navigate(['/sitters', term]);
- // this.myMap.geocodeAddress(term);
-        this.addresses.length = 0; 
-        this.sitters.subscribe( sitters => sitters
+    //this.router.navigate(['/sitters', term]);
+    //this.myMap.geocodeAddress(term);
+    this.addresses.length = 0; 
+    this.sitters.subscribe( sitters => sitters
                               .map( sitter => this.addresses
                               .push(sitter.city +" " + sitter.address)));
-
-        console.log(this.addresses);
-
-        this.searchTerms.next(term);
-
-
-      setTimeout( () => this.myMap.geocodeAddress(term, this.addresses), 2000);
-         
-      
-      
-
+    console.log(this.addresses);
+    this.searchTerms.next(term);
+    setTimeout( () => this.myMap.geocodeAddress(term, this.addresses), 2000);
   }
+
   selectedSitter: Sitter;
 
-    ngOnInit(): void {
-      console.log("sitters oninit");
+  ngOnInit(): void {
        this.sitters = this.searchTerms
       .debounceTime(300)      
       .distinctUntilChanged()
@@ -63,10 +55,10 @@ export class SittersComponent implements OnInit{
         return Observable.of<Sitter[]>([]);
       });
 
-    /*  this.route.params
+      this.route.params
       .switchMap((params: Params) =>  this.sitterService.search(params['city']))
       .subscribe(sitters => this.sitters = Observable.of(sitters));
-     */
+     
   }
   onSelect(sitter: Sitter): void {
     this.selectedSitter = sitter;
