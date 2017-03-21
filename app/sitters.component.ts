@@ -55,9 +55,9 @@ export class SittersComponent implements OnInit{
         return Observable.of<Sitter[]>([]);
       });
 
-      this.route.params
-      .switchMap((params: Params) =>  this.sitterService.search(params['city']))
-      .subscribe(sitters => this.sitters = Observable.of(sitters));
+      // this.route.params
+      // .switchMap((params: Params) =>  this.sitterService.search(params['city']))
+      // .subscribe(sitters => this.sitters = Observable.of(sitters));
      
   }
   onSelect(sitter: Sitter): void {

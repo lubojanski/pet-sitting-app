@@ -47,9 +47,9 @@ var SittersComponent = (function () {
             console.log(error);
             return Observable_1.Observable.of([]);
         });
-        this.route.params
-            .switchMap(function (params) { return _this.sitterService.search(params['city']); })
-            .subscribe(function (sitters) { return _this.sitters = Observable_1.Observable.of(sitters); });
+        // this.route.params
+        // .switchMap((params: Params) =>  this.sitterService.search(params['city']))
+        // .subscribe(sitters => this.sitters = Observable.of(sitters));
     };
     SittersComponent.prototype.onSelect = function (sitter) {
         this.selectedSitter = sitter;

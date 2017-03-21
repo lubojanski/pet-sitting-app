@@ -9,16 +9,18 @@
          class="btn">FIND A SITTER</button>
     </form>
 </section>
-
-  <section class="sitters">
-    <h2>Sitters close to your location:</h2>
-    <a *ngFor="let sitter of sitters | async"  [routerLink]="['/sitter', sitter.id]">
-        <img src="" alter="image">
-        <h1 class="sitter-name">{{sitter.name}}</h1> 
-        <div class="price"> {{sitter.price}}$/day </div>
-        <p> {{sitter.description}} </p>
-        
-    </a>
-    </section>
-
-<map #gmap [sitters]='sitters' ></map>
+<div>
+    <div class="column-left">
+        <section class="sitters">
+        <a *ngFor="let sitter of sitters | async"  [routerLink]="['/sitter', sitter.id]">
+            <img src="" alter="image">
+            <h1 class="sitter-name">{{sitter.name}}</h1> 
+            <div class="price"> {{sitter.price}}$/day </div>
+            <p> {{sitter.description}} </p>  
+        </a>
+        </section>
+    </div>
+    <div class="column-right">
+        <map #gmap [sitters]='sitters' ></map>
+    </div>
+</div>
