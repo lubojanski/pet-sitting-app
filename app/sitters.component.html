@@ -1,9 +1,7 @@
   <section class="find-sitter">
     <h1 >Find the perfect pet sitter near you.</h1>
     <form>
-        <input #city placeholder="City" id="city" 
-        required
-        >
+        <input #city placeholder="City" id="city" autocomplete="off" required>
         <button type="submit" (click)="search(city.value)"  
 
          class="btn">FIND A SITTER</button>
