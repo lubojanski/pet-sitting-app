@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
     moduleId: module.id,
     selector: 'my-app',
     template: `
-        <h1>{{title}}</h1>
+        <h1 class="title">{{title}}</h1>
         <router-outlet></router-outlet>
         `
 })

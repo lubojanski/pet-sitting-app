@@ -1,14 +1,21 @@
+.find-sitter{
+    text-align: center;
+}
 form{
     margin-top: 20px;
 }
 input{
     font-size: 1em;
     font-family: 'Montserrat', sans-serif;
+    border-radius: 5px;
+    line-height: 32px;
+    padding-left: 10px; 
 }
 button{
     font-size: 1em;
     font-family: 'Montserrat', sans-serif;
     border-radius: 5px;
+    line-height: 32px;
     border: none;
     background-color: #ddeaff;
     color: #369;

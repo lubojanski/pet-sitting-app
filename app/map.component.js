@@ -21,10 +21,23 @@ var MapComponent = (function () {
         console.log("map oninit");
         var mapProp = {
             zoom: 12,
+            center: { lat: 51.110, lng: 17.030 },
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         this.geocoder = new google.maps.Geocoder();
-        this.map = new google.maps.Map(document.getElementById("gmap"), mapProp);
+        var map = new google.maps.Map(document.getElementById("gmap"), mapProp);
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                console.log(pos);
+                map.setCenter(pos);
+            });
+        }
+        this.map = map;
         if (this.city) {
             this.setMapCenter(this.city);
         }
